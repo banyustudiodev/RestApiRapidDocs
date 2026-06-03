@@ -413,63 +413,6 @@ Mahasiswa dapat mengembangkan project ini dengan beberapa fitur berikut:
 9. Menambahkan dokumentasi response schema yang lebih lengkap.
 10. Mengubah endpoint menjadi lebih RESTful, misalnya `/api/mahasiswa/1`.
 
-## Cara Upload Project ke GitHub
-
-### 1. Inisialisasi Git
-
-Masuk ke folder project melalui terminal.
-
-```bash
-cd rapidoc-praktikum
-```
-
-Jalankan perintah berikut:
-
-```bash
-git init
-```
-
-### 2. Tambahkan File ke Git
-
-```bash
-git add .
-```
-
-### 3. Commit Project
-
-```bash
-git commit -m "Initial commit REST API PHP MySQL with RapiDoc"
-```
-
-### 4. Buat Repository di GitHub
-
-Buka GitHub, lalu buat repository baru dengan nama:
-
-```text
-rapidoc-praktikum
-```
-
-Jangan centang pilihan `Add a README file` jika file README sudah dibuat di lokal.
-
-### 5. Hubungkan Repository Lokal dengan GitHub
-
-Gunakan URL repository GitHub Anda.
-
-```bash
-git remote add origin https://github.com/username/rapidoc-praktikum.git
-```
-
-Ganti `username` dengan username GitHub Anda.
-
-### 6. Push ke GitHub
-
-```bash
-git branch -M main
-git push -u origin main
-```
-
-Setelah proses selesai, project akan tersedia di GitHub.
-
 ## Lisensi
 
 Project ini dapat digunakan untuk pembelajaran, praktikum, dan pengembangan materi kuliah.
