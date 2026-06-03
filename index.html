@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Praktikum REST API dengan RapiDoc</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- RapiDoc CDN -->
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/rapidoc/9.3.8/rapidoc-min.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+    <nav class="navbar">
+        <div class="brand">
+            <span class="brand-icon">API</span>
+            <span>REST API Lab</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#tujuan">Tujuan</a>
+            <a href="#http-request">HTTP Request</a>
+            <a href="#alur">Alur</a>
+            <a href="#endpoint">Endpoint</a>
+            <a href="#latihan">Latihan</a>
+            <a href="#rapidoc">RapiDoc</a>
+        </div>
+    </nav>
+
+    <section class="hero-content">
+        <div class="hero-text">
+            <p class="eyebrow">Praktikum Web Service</p>
+            <h1>Belajar REST API, HTTP Request, PHP MySQL, dan RapiDoc</h1>
+            <p>
+                Materi ini membimbing mahasiswa memahami HTTP Request, REST API,
+                CRUD, Bearer Token, OpenAPI Specification, dan dokumentasi
+                interaktif menggunakan RapiDoc.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#http-request" class="btn primary">Pelajari HTTP Request</a>
+                <a href="#rapidoc" class="btn secondary">Buka Dokumentasi API</a>
+            </div>
+        </div>
+
+        <div class="api-card">
+            <div class="api-card-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+
+            <pre id="typing-code"></pre>
+        </div>
+    </section>
+</header>
+
+<main>
+    <section id="tujuan" class="section">
+        <div class="section-title">
+            <p>Bagian 1</p>
+            <h2>Tujuan Praktikum</h2>
+        </div>
+
+        <div class="grid cards">
+            <article class="card fade-up">
+                <div class="card-number">01</div>
+                <h3>Memahami HTTP Request</h3>
+                <p>
+                    Mahasiswa memahami struktur request, method, endpoint, header,
+                    request body, dan response dari server.
+                </p>
+            </article>
+
+            <article class="card fade-up">
+                <div class="card-number">02</div>
+                <h3>Membuat API CRUD</h3>
+                <p>
+                    Mahasiswa membuat fitur tambah, baca, ubah, hapus,
+                    dan pencarian data mahasiswa.
+                </p>
+            </article>
+
+            <article class="card fade-up">
+                <div class="card-number">03</div>
+                <h3>Menggunakan Bearer Token</h3>
+                <p>
+                    Mahasiswa memahami konsep pengamanan endpoint menggunakan
+                    header Authorization.
+                </p>
+            </article>
+
+            <article class="card fade-up">
+                <div class="card-number">04</div>
+                <h3>Mendokumentasikan API</h3>
+                <p>
+                    Mahasiswa menulis OpenAPI JSON dan menampilkannya
+                    dengan RapiDoc.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <section id="http-request" class="section http-section">
+        <div class="section-title">
+            <p>Bagian 2</p>
+            <h2>Materi Dasar HTTP Request</h2>
+        </div>
+
+        <div class="http-intro">
+            <div>
+                <h3>Apa itu HTTP Request?</h3>
+                <p>
+                    HTTP Request adalah permintaan yang dikirim oleh client kepada server.
+                    Client dapat berupa browser, aplikasi mobile, frontend web, Postman,
+                    atau dokumentasi interaktif seperti RapiDoc.
+                </p>
+                <p>
+                    Dalam REST API, HTTP Request digunakan untuk meminta data, mengirim data,
+                    memperbarui data, atau menghapus data dari server.
+                </p>
+            </div>
+
+            <div class="request-visual">
+                <div class="client-box">Client</div>
+                <div class="arrow-flow">
+                    <span></span>
+                    <p>HTTP Request</p>
+                </div>
+                <div class="server-box">Server API</div>
+            </div>
+        </div>
+
+        <div class="http-grid">
+            <article class="http-card">
+                <span class="http-badge">1</span>
+                <h3>Method</h3>
+                <p>
+                    Method menunjukkan jenis operasi yang diminta oleh client.
+                    Contohnya GET, POST, PUT, dan DELETE.
+                </p>
+                <pre>GET /api/mahasiswa.php</pre>
+            </article>
+
+            <article class="http-card">
+                <span class="http-badge">2</span>
+                <h3>Endpoint URL</h3>
+                <p>
+                    Endpoint adalah alamat sumber daya API yang ingin diakses.
+                    Setiap endpoint mewakili fungsi tertentu.
+                </p>
+                <pre>http://localhost/rapidoc-praktikum/api/mahasiswa.php</pre>
+            </article>
+
+            <article class="http-card">
+                <span class="http-badge">3</span>
+                <h3>Header</h3>
+                <p>
+                    Header berisi informasi tambahan tentang request, seperti format data
+                    dan token autentikasi.
+                </p>
+                <pre>Authorization: Bearer praktikum-token-123</pre>
+            </article>
+
+            <article class="http-card">
+                <span class="http-badge">4</span>
+                <h3>Body</h3>
+                <p>
+                    Body berisi data yang dikirim ke server. Body biasanya digunakan pada
+                    method POST dan PUT.
+                </p>
+                <pre>{
+  "nim": "230101004",
+  "nama": "Dewi Lestari",
+  "prodi": "Informatika"
+}</pre>
+            </article>
+        </div>
+
+        <div class="method-learning">
+            <div class="section-subtitle">
+                <h3>HTTP Method yang Digunakan pada Praktikum</h3>
+                <p>
+                    Dalam praktikum ini, mahasiswa menggunakan empat method utama
+                    untuk melakukan operasi CRUD.
+                </p>
+            </div>
+
+            <div class="method-grid">
+                <div class="method-card get-card">
+                    <span>GET</span>
+                    <h4>Membaca Data</h4>
+                    <p>Digunakan untuk mengambil daftar atau detail data mahasiswa.</p>
+                    <code>GET /api/mahasiswa.php</code>
+                </div>
+
+                <div class="method-card post-card">
+                    <span>POST</span>
+                    <h4>Menambah Data</h4>
+                    <p>Digunakan untuk mengirim data baru ke server.</p>
+                    <code>POST /api/mahasiswa.php</code>
+                </div>
+
+                <div class="method-card put-card">
+                    <span>PUT</span>
+                    <h4>Memperbarui Data</h4>
+                    <p>Digunakan untuk memperbarui data mahasiswa berdasarkan ID.</p>
+                    <code>PUT /api/mahasiswa.php?id=1</code>
+                </div>
+
+                <div class="method-card delete-card">
+                    <span>DELETE</span>
+                    <h4>Menghapus Data</h4>
+                    <p>Digunakan untuk menghapus data mahasiswa berdasarkan ID.</p>
+                    <code>DELETE /api/mahasiswa.php?id=1</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="request-anatomy">
+            <div class="section-subtitle">
+                <h3>Anatomi HTTP Request</h3>
+                <p>
+                    Contoh berikut menunjukkan struktur request saat client menambahkan
+                    data mahasiswa baru ke API.
+                </p>
+            </div>
+
+            <div class="anatomy-layout">
+                <div class="anatomy-code">
+<pre><span class="code-comment">// Request Line</span>
+POST /api/mahasiswa.php HTTP/1.1
+
+<span class="code-comment">// Headers</span>
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer praktikum-token-123
+
+<span class="code-comment">// Body</span>
+{
+  "nim": "230101004",
+  "nama": "Dewi Lestari",
+  "prodi": "Informatika",
+  "angkatan": 2024,
+  "email": "dewi@kampus.test"
+}</pre>
+                </div>
+
+                <div class="anatomy-notes">
+                    <div>
+                        <h4>Request Line</h4>
+                        <p>Berisi method, endpoint, dan versi protokol HTTP.</p>
+                    </div>
+                    <div>
+                        <h4>Headers</h4>
+                        <p>Berisi metadata request, seperti format JSON dan token akses.</p>
+                    </div>
+                    <div>
+                        <h4>Body</h4>
+                        <p>Berisi data yang dikirim client kepada server.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="response-learning">
+            <div class="section-subtitle">
+                <h3>HTTP Response dari Server</h3>
+                <p>
+                    Setelah menerima request, server akan mengirimkan response.
+                    Response biasanya berisi status code dan data dalam format JSON.
+                </p>
+            </div>
+
+            <div class="response-grid">
+                <div class="status-card success">
+                    <span>200</span>
+                    <h4>OK</h4>
+                    <p>Request berhasil diproses.</p>
+                </div>
+
+                <div class="status-card created">
+                    <span>201</span>
+                    <h4>Created</h4>
+                    <p>Data baru berhasil dibuat.</p>
+                </div>
+
+                <div class="status-card warning">
+                    <span>401</span>
+                    <h4>Unauthorized</h4>
+                    <p>Token tidak dikirim atau tidak valid.</p>
+                </div>
+
+                <div class="status-card danger">
+                    <span>404</span>
+                    <h4>Not Found</h4>
+                    <p>Data atau endpoint tidak ditemukan.</p>
+                </div>
+
+                <div class="status-card error">
+                    <span>422</span>
+                    <h4>Validation Error</h4>
+                    <p>Data yang dikirim belum sesuai aturan validasi.</p>
+                </div>
+
+                <div class="status-card server">
+                    <span>500</span>
+                    <h4>Server Error</h4>
+                    <p>Terjadi kesalahan pada server atau database.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mini-practice">
+            <div>
+                <h3>Latihan Konsep</h3>
+                <p>
+                    Sebelum menulis kode, mahasiswa harus dapat menjawab pertanyaan berikut:
+                </p>
+            </div>
+
+            <ol>
+                <li>Method apa yang digunakan untuk mengambil semua data mahasiswa?</li>
+                <li>Header apa yang digunakan untuk mengirim Bearer Token?</li>
+                <li>Method apa yang digunakan untuk memperbarui data berdasarkan ID?</li>
+                <li>Apa perbedaan request body dan response body?</li>
+                <li>Mengapa endpoint tertentu harus diberi autentikasi?</li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="alur" class="section dark-section">
+        <div class="section-title light">
+            <p>Bagian 3</p>
+            <h2>Alur Kerja REST API</h2>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <span>1</span>
+                <div>
+                    <h3>Client Mengirim Request</h3>
+                    <p>
+                        Client mengirim request ke endpoint API menggunakan
+                        method GET, POST, PUT, atau DELETE.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span>2</span>
+                <div>
+                    <h3>API Mengecek Token</h3>
+                    <p>
+                        Server membaca header Authorization dan memvalidasi
+                        Bearer Token.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span>3</span>
+                <div>
+                    <h3>API Mengakses Database</h3>
+                    <p>
+                        Server menjalankan query ke MySQL menggunakan PDO.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span>4</span>
+                <div>
+                    <h3>Server Mengirim Response JSON</h3>
+                    <p>
+                        Server mengembalikan data dalam format JSON dengan
+                        HTTP status code yang sesuai.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="endpoint" class="section">
+        <div class="section-title">
+            <p>Bagian 4</p>
+            <h2>Endpoint yang Dipraktikkan</h2>
+        </div>
+
+        <div class="endpoint-table-wrapper">
+            <table class="endpoint-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>Fungsi</th>
+                        <th>Token</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>/api/login.php</td>
+                        <td>Login dan mendapatkan token</td>
+                        <td>Tidak</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method get">GET</span></td>
+                        <td>/api/mahasiswa.php</td>
+                        <td>Mengambil semua data mahasiswa</td>
+                        <td>Ya</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method get">GET</span></td>
+                        <td>/api/mahasiswa.php?search=andi</td>
+                        <td>Mencari data mahasiswa</td>
+                        <td>Ya</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method get">GET</span></td>
+                        <td>/api/mahasiswa.php?id=1</td>
+                        <td>Mengambil detail mahasiswa</td>
+                        <td>Ya</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>/api/mahasiswa.php</td>
+                        <td>Menambahkan data mahasiswa</td>
+                        <td>Ya</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method put">PUT</span></td>
+                        <td>/api/mahasiswa.php?id=1</td>
+                        <td>Memperbarui data mahasiswa</td>
+                        <td>Ya</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method delete">DELETE</span></td>
+                        <td>/api/mahasiswa.php?id=1</td>
+                        <td>Menghapus data mahasiswa</td>
+                        <td>Ya</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="latihan" class="section practice-section">
+        <div class="section-title">
+            <p>Bagian 5</p>
+            <h2>Latihan Cepat dengan Fetch API</h2>
+        </div>
+
+        <div class="tester-layout">
+            <div class="tester-panel">
+                <h3>Uji Endpoint dari Browser</h3>
+                <p>
+                    Tombol berikut akan mengirim request ke endpoint
+                    <strong>GET /api/mahasiswa.php</strong> dengan header
+                    Bearer Token.
+                </p>
+
+                <button id="btnFetch" class="btn primary">Ambil Data Mahasiswa</button>
+                <button id="btnLogin" class="btn light-btn">Tes Login</button>
+            </div>
+
+            <div class="result-panel">
+                <div class="result-header">
+                    <span>Response JSON</span>
+                    <small>Bearer praktikum-token-123</small>
+                </div>
+                <pre id="apiResult">Belum ada request.</pre>
+            </div>
+        </div>
+    </section>
+
+    <section id="rapidoc" class="section rapidoc-section">
+        <div class="section-title">
+            <p>Bagian 6</p>
+            <h2>Dokumentasi API dengan RapiDoc</h2>
+        </div>
+
+        <p class="doc-note">
+            Gunakan tombol <strong>Authorize</strong> pada RapiDoc, lalu masukkan token:
+            <strong>praktikum-token-123</strong>. Setelah itu mahasiswa dapat mencoba endpoint
+            langsung dari dokumentasi.
+        </p>
+
+        <div class="rapidoc-wrapper">
+            <rapi-doc
+                spec-url="openapi.json"
+                render-style="read"
+                theme="light"
+                layout="row"
+                show-header="false"
+                show-info="true"
+                allow-authentication="true"
+                allow-server-selection="true"
+                allow-try="true"
+                regular-font="Inter, Arial, sans-serif"
+                mono-font="Courier New"
+                bg-color="#ffffff"
+                text-color="#1f2937"
+                primary-color="#1e40af"
+                nav-bg-color="#0f172a"
+                nav-text-color="#e5e7eb"
+                nav-hover-bg-color="#1e293b"
+                nav-hover-text-color="#ffffff"
+                style="height: 800px; width: 100%; border-radius: 24px; overflow: hidden;">
+            </rapi-doc>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>REST API Lab. HTTP Request, PHP MySQL, Bearer Token, OpenAPI, dan RapiDoc.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

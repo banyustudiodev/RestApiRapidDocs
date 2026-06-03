@@ -1,0 +1,336 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Praktikum REST API Mahasiswa",
+    "description": "Dokumentasi REST API sederhana menggunakan PHP, MySQL, Bearer Token, dan RapiDoc.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost/rapidoc-praktikum/api",
+      "description": "Local XAMPP Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Endpoint untuk login dan mendapatkan token"
+    },
+    {
+      "name": "Mahasiswa",
+      "description": "Endpoint CRUD data mahasiswa"
+    }
+  ],
+  "paths": {
+    "/login.php": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login pengguna",
+        "description": "Endpoint ini digunakan untuk mendapatkan Bearer Token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              },
+              "example": {
+                "email": "admin@kampus.test",
+                "password": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login berhasil",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": true,
+                  "message": "Login berhasil",
+                  "data": {
+                    "user": {
+                      "id": 1,
+                      "name": "Admin Praktikum",
+                      "email": "admin@kampus.test"
+                    },
+                    "token_type": "Bearer",
+                    "access_token": "praktikum-token-123"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email atau password salah"
+          },
+          "422": {
+            "description": "Validasi gagal"
+          }
+        }
+      }
+    },
+    "/mahasiswa.php": {
+      "get": {
+        "tags": ["Mahasiswa"],
+        "summary": "Mengambil semua data mahasiswa",
+        "description": "Endpoint ini digunakan untuk mengambil semua data mahasiswa. Endpoint ini membutuhkan Bearer Token.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Kata kunci pencarian berdasarkan nama, NIM, prodi, atau email.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "andi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data mahasiswa berhasil diambil"
+          },
+          "401": {
+            "description": "Token tidak valid atau tidak dikirim"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Mahasiswa"],
+        "summary": "Menambahkan data mahasiswa",
+        "description": "Endpoint ini digunakan untuk menambahkan data mahasiswa baru.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MahasiswaRequest"
+              },
+              "example": {
+                "nim": "230101004",
+                "nama": "Dewi Lestari",
+                "prodi": "Informatika",
+                "angkatan": 2024,
+                "email": "dewi@kampus.test",
+                "alamat": "Banjarnegara",
+                "no_hp": "081234567004"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Mahasiswa berhasil ditambahkan"
+          },
+          "401": {
+            "description": "Token tidak valid atau tidak dikirim"
+          },
+          "409": {
+            "description": "NIM sudah digunakan"
+          },
+          "422": {
+            "description": "Validasi gagal"
+          }
+        }
+      }
+    },
+    "/mahasiswa.php?id={id}": {
+      "get": {
+        "tags": ["Mahasiswa"],
+        "summary": "Mengambil detail mahasiswa berdasarkan ID",
+        "description": "Endpoint ini digunakan untuk mengambil detail mahasiswa berdasarkan ID.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "ID mahasiswa",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail mahasiswa berhasil diambil"
+          },
+          "401": {
+            "description": "Token tidak valid atau tidak dikirim"
+          },
+          "404": {
+            "description": "Data tidak ditemukan"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Mahasiswa"],
+        "summary": "Memperbarui data mahasiswa berdasarkan ID",
+        "description": "Endpoint ini digunakan untuk memperbarui data mahasiswa berdasarkan ID.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "ID mahasiswa",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MahasiswaRequest"
+              },
+              "example": {
+                "nim": "230101001",
+                "nama": "Andi Pratama Update",
+                "prodi": "Informatika",
+                "angkatan": 2023,
+                "email": "andi.update@kampus.test",
+                "alamat": "Purwokerto",
+                "no_hp": "081234567009"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Mahasiswa berhasil diperbarui"
+          },
+          "401": {
+            "description": "Token tidak valid atau tidak dikirim"
+          },
+          "404": {
+            "description": "Data tidak ditemukan"
+          },
+          "409": {
+            "description": "NIM sudah digunakan"
+          },
+          "422": {
+            "description": "Validasi gagal"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Mahasiswa"],
+        "summary": "Menghapus data mahasiswa berdasarkan ID",
+        "description": "Endpoint ini digunakan untuk menghapus data mahasiswa berdasarkan ID.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "ID mahasiswa",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mahasiswa berhasil dihapus"
+          },
+          "401": {
+            "description": "Token tidak valid atau tidak dikirim"
+          },
+          "404": {
+            "description": "Data tidak ditemukan"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Token",
+        "description": "Masukkan token: praktikum-token-123"
+      }
+    },
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "admin@kampus.test"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456"
+          }
+        }
+      },
+      "MahasiswaRequest": {
+        "type": "object",
+        "required": ["nim", "nama", "prodi", "angkatan", "email"],
+        "properties": {
+          "nim": {
+            "type": "string",
+            "example": "230101004"
+          },
+          "nama": {
+            "type": "string",
+            "example": "Dewi Lestari"
+          },
+          "prodi": {
+            "type": "string",
+            "example": "Informatika"
+          },
+          "angkatan": {
+            "type": "integer",
+            "example": 2024
+          },
+          "email": {
+            "type": "string",
+            "example": "dewi@kampus.test"
+          },
+          "alamat": {
+            "type": "string",
+            "example": "Banjarnegara"
+          },
+          "no_hp": {
+            "type": "string",
+            "example": "081234567004"
+          }
+        }
+      }
+    }
+  }
+}
